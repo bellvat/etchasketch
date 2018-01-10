@@ -1,0 +1,13 @@
+.container{
+  width: 560px;
+  height: 560px;
+  font-size:0;
+  margin: 0 auto;
+}
+
+
+
+.box{
+  display: inline-block;
+  border: 1px solid black;
+}
