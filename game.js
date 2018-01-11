@@ -1,14 +1,18 @@
+//creating container for grid
 const container = document.querySelector('.container')
+//creating div for buttons
 const topArea = document.querySelector('.topArea')
 const button = document.createElement('button')
 button.textContent = "Reset"
-
 button.onclick = function(){
   gridNum = prompt("Please enter desired dimension (i.e. 12 for 12x12 grid)")
-  sessionStorage.setItem('new', gridNum)
-  window.location.reload()
+  if(!gridNum || gridNum <= 0){
+    alert("Please enter a number greater than 0.")
+  }else{
+    sessionStorage.setItem('new', gridNum)
+    window.location.reload()
+  }
 }
-
 const blackButton = document.createElement('button')
 const colorButton = document.createElement('button')
 blackButton.textContent = "Draw in shades of Black"
@@ -30,32 +34,35 @@ colorButton.onclick = function(){
 topArea.appendChild(blackButton)
 topArea.appendChild(colorButton)
 topArea.appendChild(button)
-
-function createGrid(n = 16){
-  for(let i = 1;i<=n**2;i++){
-    let grid = document.createElement('div')
-    let w = (560/n)
-    grid.classList.add('box')
-    grid.style.width = `${w-2}px`
-    grid.style.height = `${w-2}px`
-    grid.style.backgroundColor = "rgb(255,255,255)"
-    container.appendChild(grid)
-
+//creating the grid using tr and td
+function createGrid(n){
+  for(let i = 1;i<=n;i++){
+    let gridR = document.createElement('tr')
+    gridR.classList.add('row')
+    gridR.style.height = `${560.0/n}px`
+    container.appendChild(gridR)
+    for(let i =1;i<=n;i++){
+      let gridC = document.createElement('td')
+      gridC.classList.add('col')
+      gridC.style.width = `${560.0/n}px`
+      gridC.style.backgroundColor = "rgb(255,255,255)"
+      gridR.appendChild(gridC)
+    }
   }
 }
-
+//function for transforming squares to random colors
 function addColor(e){
-  if(e.target.className !== 'box') return
+  if(e.target.className !== 'col') return
   a = Math.random() * 226
   b = Math.random() * 226
   c = Math.random() * 226
 
   e.target.style.backgroundColor= `rgb(${a},${b},${c})`
 }
-
+//function to transform squares to darker shades of black
 function addBlack(e){
   //its just needs to reduce the last one by 10%
-  if(e.target.className !== 'box') return
+  if(e.target.className !== 'col') return
   let color = getComputedStyle(e.target).backgroundColor
   let match = /\d*\.?\d+/
   let results = match.exec(color)
@@ -63,13 +70,12 @@ function addBlack(e){
   let a = num - (255 * .1)
   e.target.style.backgroundColor= `rgb(${a},${a},${a})`
 }
-
-
+//adding mouseover event
 document.addEventListener('mouseover', addBlack)
-
-
+//calling the stored user entered grid size using the 'new' key
 let gridNum = sessionStorage.getItem('new')
-
+//the first grid will not contain a user entry, and therefore will be null
+//set default grid to 16
 if(gridNum === null){
   createGrid(16)
 }else{
