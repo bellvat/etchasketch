@@ -52,6 +52,7 @@ function createGrid(n){
 }
 //function for transforming squares to random colors
 function addColor(e){
+  if (!e) e = window.event;
   let targ = e.target || e.srcElement
   if(targ.className !== 'col') return
   a = Math.random() * 226
@@ -63,6 +64,7 @@ function addColor(e){
 //function to transform squares to darker shades of black
 function addBlack(e){
   //its just needs to reduce the last one by 10%
+  if (!e) e = window.event;
   let targ = e.target || e.srcElement
   if(targ.className !== 'col') return
   let color = getComputedStyle(e.target).backgroundColor
