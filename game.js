@@ -52,23 +52,25 @@ function createGrid(n){
 }
 //function for transforming squares to random colors
 function addColor(e){
-  if(e.target.className !== 'col') return
+  let targ = e.target || e.srcElement
+  if(targ.className !== 'col') return
   a = Math.random() * 226
   b = Math.random() * 226
   c = Math.random() * 226
 
-  e.target.style.backgroundColor= `rgb(${a},${b},${c})`
+  targ.style.backgroundColor= `rgb(${a},${b},${c})`
 }
 //function to transform squares to darker shades of black
 function addBlack(e){
   //its just needs to reduce the last one by 10%
-  if(e.target.className !== 'col') return
+  let targ = e.target || e.srcElement
+  if(targ.className !== 'col') return
   let color = getComputedStyle(e.target).backgroundColor
   let match = /\d*\.?\d+/
   let results = match.exec(color)
   let num = Number(results[0])
   let a = num - (255 * .1)
-  e.target.style.backgroundColor= `rgb(${a},${a},${a})`
+  targ.style.backgroundColor= `rgb(${a},${a},${a})`
 }
 //adding mouseover event
 document.addEventListener('mouseover', addBlack)
